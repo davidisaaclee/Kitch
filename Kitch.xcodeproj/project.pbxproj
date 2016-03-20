@@ -30,7 +30,6 @@
 		631AB1E11C9F083B00755998 /* ModelImplementations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelImplementations.swift; sourceTree = "<group>"; };
 		631AB1E31C9F084800755998 /* ModelFactories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelFactories.swift; sourceTree = "<group>"; };
 		631AB1E51C9F13B500755998 /* NSURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURL.swift; sourceTree = "<group>"; };
-		631AB1E71C9F1A4B00755998 /* Tock.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Tock.caf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +72,6 @@
 				631AB1D51C9F029400755998 /* LaunchScreen.storyboard */,
 				631AB1D81C9F029400755998 /* Info.plist */,
 				631AB1E51C9F13B500755998 /* NSURL.swift */,
-				631AB1E71C9F1A4B00755998 /* Tock.caf */,
 			);
 			path = Kitch;
 			sourceTree = "<group>";
