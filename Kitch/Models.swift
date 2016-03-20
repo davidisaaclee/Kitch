@@ -25,11 +25,7 @@ protocol PlaybackControllable {
 }
 
 protocol Sampler: Voice, PlaybackControllable {
-	func load(file: AudioFile)
-}
-
-protocol Polyphonic {
-	func dequeueVoice() -> Voice?
+//	init(file: AudioFile)
 }
 
 

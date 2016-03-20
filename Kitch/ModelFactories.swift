@@ -14,12 +14,6 @@ struct AudioFiles {
 	}
 }
 
-struct Samplers {
-	static func make() -> Sampler {
-		return SimpleSampler()
-	}
-}
-
 struct Recorders {
 	static func make(outputURL outputURL: NSURL) -> AudioRecordable {
 		return Recorder()

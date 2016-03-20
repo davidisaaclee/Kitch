@@ -25,30 +25,30 @@ struct LocalAudioFile: AudioFile {
 struct SimpleSampler: Sampler {
 	var busy: Bool = false
 
-	func load(file: AudioFile) {
-		// TODO
+	var audioPlayer: AVAudioPlayer?
+
+	init(file: AudioFile) {
+		self.audioPlayer = try! AVAudioPlayer(data: file.data!)
 	}
 
 	func play() {
-		// TODO
+		guard let audioPlayer = self.audioPlayer else { return }
+		audioPlayer.play()
 	}
 
 	func stop() {
-		// TODO
+		guard let audioPlayer = self.audioPlayer else { return }
+		audioPlayer.stop()
 	}
 }
 
-struct PolyphonicSamplerController: Polyphonic {
-	private let voices: [Voice]
+struct PolyphonicSamplerController {
+	private var voices: [Sampler] = []
 
-	init(numberOfVoices: Int) {
-		self.voices = Array(count: numberOfVoices, repeatedValue: Samplers.make())
-	}
-
-	func dequeueVoice() -> Voice? {
-		return self.voices
-			.filter { $0.busy == false }
-			.first
+	mutating func makeSampler(fromFile audioFile: AudioFile) -> SimpleSampler {
+		let sampler = SimpleSampler(file: audioFile)
+		self.voices.append(sampler)
+		return sampler
 	}
 }
 
@@ -77,7 +77,8 @@ struct Recorder: AudioRecordable {
 		self.avRecorder = try! AVAudioRecorder(URL: outputURL, settings: [
 			AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
 			AVSampleRateKey: 44100,
-			AVNumberOfChannelsKey: 1
+			AVNumberOfChannelsKey: 1,
+			AVFormatIDKey: NSNumber(unsignedInt: kAudioFormatLinearPCM)
 		])
 		self.avRecorder.prepareToRecord()
 	}

@@ -21,14 +21,28 @@
                                 <rect key="frame" x="19" y="20" width="49" height="30"/>
                                 <state key="normal" title="Record"/>
                                 <connections>
-                                    <action selector="record" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="qPh-du-iws"/>
+                                    <action selector="startRecording" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="6MP-m4-8pa"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vwA-Eh-LHG">
                                 <rect key="frame" x="113" y="20" width="32" height="30"/>
                                 <state key="normal" title="Stop"/>
                                 <connections>
-                                    <action selector="stop" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="J66-ax-tTk"/>
+                                    <action selector="stopRecording" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="nP7-M5-Lrq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I4M-Rz-Bkd">
+                                <rect key="frame" x="29" y="74" width="30" height="30"/>
+                                <state key="normal" title="Play"/>
+                                <connections>
+                                    <action selector="startPlayback" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="qpy-MC-OJX"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AwN-K6-tmI">
+                                <rect key="frame" x="113" y="74" width="32" height="30"/>
+                                <state key="normal" title="Stop"/>
+                                <connections>
+                                    <action selector="stopPlayback" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="b9l-8l-IZQ"/>
                                 </connections>
                             </button>
                         </subviews>

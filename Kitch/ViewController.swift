@@ -11,6 +11,9 @@ import UIKit
 class ViewController: UIViewController {
 
 	var recorder: AudioRecordable!
+	var samplerController: PolyphonicSamplerController!
+
+	var mostRecentFile: AudioFile?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -19,16 +22,29 @@ class ViewController: UIViewController {
 		let documentsURL = paths.first!
 
 		self.recorder = Recorders.make(outputURL: documentsURL.URLByAppendingPathComponent("\(NSUUID().UUIDString).caf"))
+		self.samplerController = PolyphonicSamplerController()
 	}
 
-	@IBAction func record() {
+	@IBAction func startRecording() {
 		self.recorder.record()
 	}
 
-	@IBAction func stop() {
+	@IBAction func stopRecording() {
 		self.recorder.stop()
-		let file = self.recorder.export()
-		print(file)
+		self.mostRecentFile = self.recorder.export()
 		self.recorder.reset()
+	}
+
+	private var voice: Sampler!
+
+	@IBAction func startPlayback() {
+		guard let file = self.mostRecentFile else { return }
+
+		let voice = self.samplerController.makeSampler(fromFile: file)
+		voice.play()
+	}
+
+	@IBAction func stopPlayback() {
+//		voice.stop()
 	}
 }
