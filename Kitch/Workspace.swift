@@ -22,8 +22,9 @@ final class Workspace {
 		return sampler
 	}
 
-	func triggerPad(pad: Pad) {
-		guard let audioFile = pad.audioFile else { return }
+	func triggerPad(pad: Pad, session: Session) {
+		guard let audioFileID = pad.audioFileID else { return }
+		guard let audioFile = session.bin.files[audioFileID] else { return }
 		let sampler = self.makeSampler(fromAudioFile: audioFile)
 		sampler.play()
 	}

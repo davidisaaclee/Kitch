@@ -81,7 +81,7 @@ class PadsViewController: UIViewController {
 
 	func tapOnPadAtCoordinates(coordinates: Coordinates) {
 		if self.mode == .Normal {
-			self.session.pads[coordinates].tap(self.workspace.triggerPad)
+			self.session.pads[coordinates].tap { self.workspace.triggerPad($0, session: self.session) }
 		}
 	}
 
@@ -178,7 +178,7 @@ extension PadsViewController: PadCellDelegate {
 		switch self.mode {
 		case .Normal:
 			if self.session.pads[coordinates] == nil {
-				self.session.pads[coordinates] = SimplePad(color: Colors.randomColor()!, audioFile: nil)
+				self.session.pads[coordinates] = SimplePad(color: Colors.randomColor()!, audioFileID: nil)
 				self.workspace.sharedRecorder.record()
 			}
 
@@ -195,8 +195,9 @@ extension PadsViewController: PadCellDelegate {
 
 		guard let pad = self.session.pads[coordinates] else { return }
 
-		if pad.audioFile == nil {
-			self.session.pads[coordinates]?.audioFile = self.workspace.sharedRecorder.export()
+		if pad.audioFileID == nil {
+			let fileID = self.session.bin.addFile(self.workspace.sharedRecorder.export())
+			self.session.pads[coordinates]?.audioFileID = fileID
 			self.workspace.sharedRecorder = Recorders.make()
 		}
 	}

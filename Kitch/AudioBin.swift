@@ -8,8 +8,23 @@
 
 import Foundation
 
+typealias AudioClipID = String
+typealias AudioFileID = String
+
 /// Holds all audio clips and files for use within a session.
 struct AudioBin {
-	var clips: [AudioClip] = []
-	var files: [AudioFile] = []
+	var clips: [AudioClipID: AudioClip] = [:]
+	var files: [AudioFileID: AudioFile] = [:]
+
+	mutating func addClip(clip: AudioClip) -> AudioClipID {
+		let id = NSUUID().UUIDString
+		self.clips[id] = clip
+		return id
+	}
+
+	mutating func addFile(file: AudioFile) -> AudioFileID {
+		let id = NSUUID().UUIDString
+		self.files[id] = file
+		return id
+	}
 }

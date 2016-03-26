@@ -36,10 +36,10 @@ func == (left: Coordinates, right: Coordinates) -> Bool {
 
 protocol Pad {
 	var color: UIColor { get }
-	var audioFile: AudioFile? { get set }
+	var audioFileID: AudioFileID? { get set }
 }
 
 struct SimplePad: Pad {
 	var color: UIColor
-	var audioFile: AudioFile?
+	var audioFileID: AudioFileID?
 }
