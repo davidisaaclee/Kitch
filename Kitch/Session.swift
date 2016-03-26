@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+/// A document produced by Kitch - think of this as a song.
+struct Session: Named {
+	var name: String
+	var bin: AudioBin = AudioBin()
+}

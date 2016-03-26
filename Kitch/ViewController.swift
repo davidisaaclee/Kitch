@@ -10,9 +10,6 @@ import UIKit
 
 class ViewController: UIViewController {
 
-//	var recorder: AudioRecordingMaker = Recorders.make()
-//	var samplerController: PolyphonicSamplerController = PolyphonicSamplerController()
-
 	var workspace: Workspace = Workspace()
 	var session: Session = Sessions.make()
 
@@ -21,7 +18,7 @@ class ViewController: UIViewController {
 	}
 
 	@IBAction func stopRecording() {
-		self.workspace.sharedRecorder.stop()
+		self.workspace.sharedRecorder.pause()
 		self.session.bin.files.append(self.workspace.sharedRecorder.export())
 		self.workspace.sharedRecorder = Recorders.make()
 	}

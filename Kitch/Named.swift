@@ -1,5 +1,5 @@
 //
-//  Name.swift
+//  Named.swift
 //  Kitch
 //
 //  Created by David Lee on 3/26/16.
@@ -7,3 +7,7 @@
 //
 
 import Foundation
+
+protocol Named {
+	var name: String { get set }
+}

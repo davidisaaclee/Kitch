@@ -7,3 +7,7 @@
 //
 
 import Foundation
+
+protocol Sampler: Voice, PlaybackControllable {
+	init(file: AudioFile)
+}

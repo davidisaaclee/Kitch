@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+protocol AudioRecordingMaker {
+	func record()
+	func pause()
+	func export() -> AudioFile
+}

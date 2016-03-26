@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+/// Directly maps to an audio file on disk - an uncut, unmodifed buffer of audio.
+protocol AudioFile: Named {
+	var data: NSData? { get }
+	func dataForSegment(start start: NSTimeInterval, end: NSTimeInterval) -> NSData?
+}

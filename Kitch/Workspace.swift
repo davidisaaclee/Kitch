@@ -7,3 +7,30 @@
 //
 
 import Foundation
+
+/// Holds working data which should be destroyed on application close.
+final class Workspace {
+	var sharedRecorder: AudioRecordingMaker = Recorders.make()
+
+	/// All voices which are currently in use.
+	var activeVoices: [Voice] = []
+
+	/// Creates a sampler voice.
+	func makeSampler(fromAudioFile audioFile: AudioFile) -> Sampler {
+		let sampler = SimpleSampler(file: audioFile)
+		sampler.voiceDelegate = self
+		return sampler
+	}
+}
+
+extension Workspace: VoiceDelegate {
+	func voiceDidBecomeBusy(voice: Voice) {
+		self.activeVoices.append(voice)
+	}
+
+	func voiceDidBecomeFree(voice: Voice) {
+		self.activeVoices
+			.indexOf { $0 === voice }
+			.tap { self.activeVoices.removeAtIndex($0) }
+	}
+}

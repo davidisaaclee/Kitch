@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+/// Holds all audio clips and files for use within a session.
+struct AudioBin {
+	var clips: [AudioClip] = []
+	var files: [AudioFile] = []
+}

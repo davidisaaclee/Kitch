@@ -1,5 +1,5 @@
 //
-//  ModelFactories.swift
+//  Factories.swift
 //  Kitch
 //
 //  Created by David Lee on 3/20/16.
