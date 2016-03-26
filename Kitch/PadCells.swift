@@ -19,7 +19,6 @@ class PadCell: UICollectionViewCell {
 	weak var delegate: PadCellDelegate?
 
 	private let maximumTapTime: NSTimeInterval = 0.2
-
 	private var currentTouch: (touch: UITouch, time: NSDate)?
 
 	override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -45,11 +44,3 @@ class PadCell: UICollectionViewCell {
 		self.layer.cornerRadius = 0
 	}
 }
-//
-//final class PadPlayCell: PadCell {
-//
-//}
-//
-//final class PadEmptyCell: PadCell {}
-//
-//final class PadRecordCell: PadCell {}
