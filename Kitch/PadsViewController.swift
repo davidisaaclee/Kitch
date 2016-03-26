@@ -13,7 +13,8 @@ class PadsViewController: UIViewController {
 	var workspace: Workspace = Workspace()
 	var session: Session = Sessions.make()
 
-	let pressShiftGestureRecognizer: UILongPressGestureRecognizer = UILongPressGestureRecognizer()
+	let pressLeftShiftGestureRecognizer: UILongPressGestureRecognizer = UILongPressGestureRecognizer()
+	let pressRightShiftGestureRecognizer: UILongPressGestureRecognizer = UILongPressGestureRecognizer()
 
 	@IBOutlet var padsView: UICollectionView! {
 		didSet {
@@ -22,20 +23,25 @@ class PadsViewController: UIViewController {
 		}
 	}
 
-	@IBOutlet var shiftButton: UIView! {
+	@IBOutlet var leftShiftButton: UIView! {
 		didSet {
-			self.shiftButton.addGestureRecognizer(self.pressShiftGestureRecognizer)
+			self.leftShiftButton.addGestureRecognizer(self.pressLeftShiftGestureRecognizer)
+		}
+	}
+
+	@IBOutlet var rightShiftButton: UIView! {
+		didSet {
+			self.rightShiftButton.addGestureRecognizer(self.pressRightShiftGestureRecognizer)
 		}
 	}
 
 	private enum Mode {
 		case Normal
-		case Shift
+		case LeftShift
 	}
 
 	private var mode: Mode = .Normal {
 		didSet {
-			print("Set mode: \(self.mode)")
 			self.padsView.reloadData()
 		}
 	}
@@ -56,8 +62,11 @@ class PadsViewController: UIViewController {
 	}
 
 	private func setup() {
-		self.pressShiftGestureRecognizer.minimumPressDuration = 0
-		self.pressShiftGestureRecognizer.addTarget(self, action: #selector(self.pressShift(_:)))
+		self.pressLeftShiftGestureRecognizer.minimumPressDuration = 0
+		self.pressLeftShiftGestureRecognizer.addTarget(self, action: #selector(self.pressLeftShift(_:)))
+
+		self.pressRightShiftGestureRecognizer.minimumPressDuration = 0
+		self.pressRightShiftGestureRecognizer.addTarget(self, action: #selector(self.pressRightShift(_:)))
 	}
 
 	override func viewDidLoad() {
@@ -76,13 +85,25 @@ class PadsViewController: UIViewController {
 		}
 	}
 
-	@objc private func pressShift(recognizer: UILongPressGestureRecognizer) {
+	@objc private func pressLeftShift(recognizer: UILongPressGestureRecognizer) {
 		switch recognizer.state {
 		case .Began:
-			self.mode = .Shift
+			self.mode = .LeftShift
 
 		case .Ended:
 			self.mode = .Normal
+
+		default: return
+		}
+	}
+
+	@objc private func pressRightShift(recognizer: UILongPressGestureRecognizer) {
+		switch recognizer.state {
+		case .Began:
+			self.performSegueWithIdentifier(Strings.Interface.Segues.ShowSongSettings, sender: self)
+
+		case .Ended:
+			self.dismissViewControllerAnimated(false, completion: nil)
 
 		default: return
 		}
@@ -130,7 +151,7 @@ extension PadsViewController: UICollectionViewDataSource {
 				padCell.configuration = .CanPlay
 				padCell.backgroundColor = pad.color
 
-			case .Shift:
+			case .LeftShift:
 				padCell.configuration = .Editing
 				padCell.backgroundColor = pad.color
 			}
@@ -161,7 +182,7 @@ extension PadsViewController: PadCellDelegate {
 				self.workspace.sharedRecorder.record()
 			}
 
-		case .Shift:
+		case .LeftShift:
 			break
 		}
 

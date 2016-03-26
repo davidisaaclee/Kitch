@@ -14,5 +14,10 @@ struct Strings {
 //		static let PadRecordCellReuseIdentifier = "RecordCell"
 //		static let PadEmptyCellReuseIdentifier = "EmptyCell"
 		static let PadCellReuseIdentifier = "PadCell"
+
+		struct Segues {
+			static let ShowSongSettings = "ShowSongSettings"
+			static let HideSongSettings = "HideSongSettings"
+		}
 	}
 }
