@@ -7,9 +7,37 @@
 //
 
 import Foundation
+import UIKit
 
 /// A document produced by Kitch - think of this as a song.
 struct Session: Named {
 	var name: String
 	var bin: AudioBin = AudioBin()
+	var pads: [Coordinates: Pad]
+}
+
+
+
+
+struct Coordinates {
+	let x: Int
+	let y: Int
+}
+
+extension Coordinates: Hashable {
+	var hashValue: Int {
+		return -1
+	}
+}
+
+func == (left: Coordinates, right: Coordinates) -> Bool {
+	return (left.x == right.x) && (left.y == right.y)
+}
+
+protocol Pad {
+	var color: UIColor { get }
+}
+
+struct SimplePad: Pad {
+	var color: UIColor
 }

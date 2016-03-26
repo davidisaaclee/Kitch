@@ -22,6 +22,6 @@ struct Recorders {
 
 struct Sessions {
 	static func make() -> Session {
-		return Session(name: "My Session", bin: AudioBin())
+		return Session(name: "My Session", bin: AudioBin(), pads: [:])
 	}
 }

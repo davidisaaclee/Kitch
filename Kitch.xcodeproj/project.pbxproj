@@ -15,6 +15,9 @@
 		631AB1E41C9F084800755998 /* Factories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631AB1E31C9F084800755998 /* Factories.swift */; };
 		631AB1E61C9F13B500755998 /* NSURL+documentsURLByAppendingPathComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631AB1E51C9F13B500755998 /* NSURL+documentsURLByAppendingPathComponent.swift */; };
 		63942CD41CA6F84F0067A9F7 /* SwitchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63942CD31CA6F84F0067A9F7 /* SwitchingView.swift */; };
+		63942CD61CA6FD790067A9F7 /* PadCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63942CD51CA6FD790067A9F7 /* PadCells.swift */; };
+		63942CDA1CA6FE210067A9F7 /* PadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63942CD91CA6FE210067A9F7 /* PadsViewController.swift */; };
+		63942CDC1CA6FF1A0067A9F7 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63942CDB1CA6FF1A0067A9F7 /* Strings.swift */; };
 		639933DC1CA6D2E4008CE8CA /* Optional+tap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639933DB1CA6D2E4008CE8CA /* Optional+tap.swift */; };
 		639933DE1CA6D2EB008CE8CA /* Optional+withDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639933DD1CA6D2EB008CE8CA /* Optional+withDefault.swift */; };
 		639933E11CA6D901008CE8CA /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639933E01CA6D901008CE8CA /* Recorder.swift */; };
@@ -43,6 +46,9 @@
 		631AB1E31C9F084800755998 /* Factories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Factories.swift; sourceTree = "<group>"; };
 		631AB1E51C9F13B500755998 /* NSURL+documentsURLByAppendingPathComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+documentsURLByAppendingPathComponent.swift"; sourceTree = "<group>"; };
 		63942CD31CA6F84F0067A9F7 /* SwitchingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchingView.swift; sourceTree = "<group>"; };
+		63942CD51CA6FD790067A9F7 /* PadCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PadCells.swift; sourceTree = "<group>"; };
+		63942CD91CA6FE210067A9F7 /* PadsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PadsViewController.swift; sourceTree = "<group>"; };
+		63942CDB1CA6FF1A0067A9F7 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		639933DB1CA6D2E4008CE8CA /* Optional+tap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Optional+tap.swift"; sourceTree = "<group>"; };
 		639933DD1CA6D2EB008CE8CA /* Optional+withDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Optional+withDefault.swift"; sourceTree = "<group>"; };
 		639933E01CA6D901008CE8CA /* Recorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recorder.swift; sourceTree = "<group>"; };
@@ -102,6 +108,7 @@
 				631AB1D81C9F029400755998 /* Info.plist */,
 				639933DA1CA6D2BA008CE8CA /* Extensions */,
 				639933F31CA6D9F8008CE8CA /* Utility */,
+				63942CDB1CA6FF1A0067A9F7 /* Strings.swift */,
 			);
 			path = Kitch;
 			sourceTree = "<group>";
@@ -110,6 +117,8 @@
 			isa = PBXGroup;
 			children = (
 				63942CD31CA6F84F0067A9F7 /* SwitchingView.swift */,
+				63942CD51CA6FD790067A9F7 /* PadCells.swift */,
+				63942CD91CA6FE210067A9F7 /* PadsViewController.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -230,6 +239,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63942CDA1CA6FE210067A9F7 /* PadsViewController.swift in Sources */,
+				63942CD61CA6FD790067A9F7 /* PadCells.swift in Sources */,
 				639933E11CA6D901008CE8CA /* Recorder.swift in Sources */,
 				63942CD41CA6F84F0067A9F7 /* SwitchingView.swift in Sources */,
 				639933F01CA6D9D4008CE8CA /* AudioRecordingMaker.swift in Sources */,
@@ -250,6 +261,7 @@
 				639933E81CA6D9A1008CE8CA /* Workspace.swift in Sources */,
 				639933DE1CA6D2EB008CE8CA /* Optional+withDefault.swift in Sources */,
 				639933EC1CA6D9B8008CE8CA /* AudioBin.swift in Sources */,
+				63942CDC1CA6FF1A0067A9F7 /* Strings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,7 +25,10 @@ final class SwitchingView: UIView {
 	func registerView(view: UIView, forIdentifier id: ViewIdentifier) {
 		self.views[id]?.removeFromSuperview()
 
+		view.hidden = true
 		self.views[id] = view
+		self.addSubview(view)
+
 		self.activeViewIdentifier.flatMap(self.viewForIdentifier)?.hidden = false
 	}
 
