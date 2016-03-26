@@ -57,8 +57,6 @@ class PadsViewController: UIViewController {
 	}
 
 	private func setup() {
-		self.session.pads[Coordinates(x: 1, y: 1)] = SimplePad(color: UIColor.redColor())
-
 		self.pressShiftGestureRecognizer.minimumPressDuration = 0
 		self.pressShiftGestureRecognizer.addTarget(self, action: #selector(self.pressShift(_:)))
 	}
@@ -72,16 +70,27 @@ class PadsViewController: UIViewController {
 	}
 
 	func tapOnPadAtCoordinates(coordinates: Coordinates) {
-		print("Tapped", coordinates)
+		if self.mode == .Normal {
+			self.session.pads[coordinates].tap(self.workspace.triggerPad)
+		}
 	}
 
 	@objc private func pressShift(recognizer: UILongPressGestureRecognizer) {
 		switch recognizer.state {
 		case .Began:
-			self.mode = .Shift
+//			self.mode = .Shift
+			break
 
 		case .Ended:
-			self.mode = .Normal
+//			self.mode = .Normal
+
+			switch self.mode {
+			case .Normal:
+				self.mode = .Shift
+
+			case .Shift:
+				self.mode = .Normal
+			}
 
 		default: return
 		}
@@ -138,14 +147,29 @@ extension PadsViewController: UICollectionViewDataSource {
 extension PadsViewController: PadCellDelegate {
 	func pad(pad: PadCell, wasTappedWithTouch touch: UITouch) {
 		guard let indexPath = self.padsView.indexPathForCell(pad) else { return }
-		self.tapOnPadAtCoordinates(self.coordinatesForIndex(indexPath.item, wrapAt: Constants.columns))
+		let coordinates = self.coordinatesForIndex(indexPath.item, wrapAt: Constants.columns)
+		self.tapOnPadAtCoordinates(coordinates)
 	}
 
 	func pad(pad: PadCell, beganPressWithTouch touch: UITouch) {
-//		print("Began touch")
+		guard let indexPath = self.padsView.indexPathForCell(pad) else { return }
+		let coordinates = self.coordinatesForIndex(indexPath.item, wrapAt: Constants.columns)
+
+		if self.mode == .Shift {
+			self.session.pads[coordinates] = SimplePad(color: Colors.randomColor()!, audioFile: nil)
+			self.workspace.sharedRecorder.record()
+		}
+
+		self.padsView.reloadItemsAtIndexPaths([indexPath])
 	}
 
 	func pad(pad: PadCell, endedPressWithTouch touch: UITouch) {
-//		print("Ended touch")
+		guard let indexPath = self.padsView.indexPathForCell(pad) else { return }
+		let coordinates = self.coordinatesForIndex(indexPath.item, wrapAt: Constants.columns)
+
+		if self.mode == .Shift {
+			self.session.pads[coordinates]?.audioFile = self.workspace.sharedRecorder.export()
+			self.workspace.sharedRecorder = Recorders.make()
+		}
 	}
 }

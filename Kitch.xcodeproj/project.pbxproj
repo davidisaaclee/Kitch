@@ -33,6 +33,9 @@
 		639933F71CA6DA16008CE8CA /* PlaybackControllable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639933F61CA6DA16008CE8CA /* PlaybackControllable.swift */; };
 		639933F91CA6DA22008CE8CA /* Voice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639933F81CA6DA22008CE8CA /* Voice.swift */; };
 		639933FB1CA6DA31008CE8CA /* AudioFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639933FA1CA6DA31008CE8CA /* AudioFile.swift */; };
+		63DDB2D31CA7121000C179E9 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DDB2D21CA7121000C179E9 /* Colors.swift */; };
+		63DDB2D51CA7127200C179E9 /* UIColor+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DDB2D41CA7127200C179E9 /* UIColor+hex.swift */; };
+		63DDB2D91CA715A500C179E9 /* Array+pickRandomElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DDB2D81CA715A500C179E9 /* Array+pickRandomElement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +67,9 @@
 		639933F61CA6DA16008CE8CA /* PlaybackControllable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaybackControllable.swift; sourceTree = "<group>"; };
 		639933F81CA6DA22008CE8CA /* Voice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Voice.swift; sourceTree = "<group>"; };
 		639933FA1CA6DA31008CE8CA /* AudioFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioFile.swift; sourceTree = "<group>"; };
+		63DDB2D21CA7121000C179E9 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		63DDB2D41CA7127200C179E9 /* UIColor+hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+hex.swift"; sourceTree = "<group>"; };
+		63DDB2D81CA715A500C179E9 /* Array+pickRandomElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+pickRandomElement.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +115,7 @@
 				639933DA1CA6D2BA008CE8CA /* Extensions */,
 				639933F31CA6D9F8008CE8CA /* Utility */,
 				63942CDB1CA6FF1A0067A9F7 /* Strings.swift */,
+				63DDB2D21CA7121000C179E9 /* Colors.swift */,
 			);
 			path = Kitch;
 			sourceTree = "<group>";
@@ -129,6 +136,8 @@
 				631AB1E51C9F13B500755998 /* NSURL+documentsURLByAppendingPathComponent.swift */,
 				639933DB1CA6D2E4008CE8CA /* Optional+tap.swift */,
 				639933DD1CA6D2EB008CE8CA /* Optional+withDefault.swift */,
+				63DDB2D41CA7127200C179E9 /* UIColor+hex.swift */,
+				63DDB2D81CA715A500C179E9 /* Array+pickRandomElement.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -240,6 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63942CDA1CA6FE210067A9F7 /* PadsViewController.swift in Sources */,
+				63DDB2D31CA7121000C179E9 /* Colors.swift in Sources */,
 				63942CD61CA6FD790067A9F7 /* PadCells.swift in Sources */,
 				639933E11CA6D901008CE8CA /* Recorder.swift in Sources */,
 				63942CD41CA6F84F0067A9F7 /* SwitchingView.swift in Sources */,
@@ -250,11 +260,13 @@
 				631AB1CF1C9F029400755998 /* ViewController.swift in Sources */,
 				639933F21CA6D9E9008CE8CA /* Named.swift in Sources */,
 				631AB1E41C9F084800755998 /* Factories.swift in Sources */,
+				63DDB2D51CA7127200C179E9 /* UIColor+hex.swift in Sources */,
 				639933EE1CA6D9C7008CE8CA /* AudioClip.swift in Sources */,
 				631AB1CD1C9F029400755998 /* AppDelegate.swift in Sources */,
 				639933DC1CA6D2E4008CE8CA /* Optional+tap.swift in Sources */,
 				639933F91CA6DA22008CE8CA /* Voice.swift in Sources */,
 				639933F71CA6DA16008CE8CA /* PlaybackControllable.swift in Sources */,
+				63DDB2D91CA715A500C179E9 /* Array+pickRandomElement.swift in Sources */,
 				639933EA1CA6D9AD008CE8CA /* Session.swift in Sources */,
 				639933F51CA6DA07008CE8CA /* Sampler.swift in Sources */,
 				639933E31CA6D966008CE8CA /* SimpleSampler.swift in Sources */,

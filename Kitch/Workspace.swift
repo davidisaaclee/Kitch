@@ -21,6 +21,12 @@ final class Workspace {
 		sampler.voiceDelegate = self
 		return sampler
 	}
+
+	func triggerPad(pad: Pad) {
+		guard let audioFile = pad.audioFile else { return }
+		let sampler = self.makeSampler(fromAudioFile: audioFile)
+		sampler.play()
+	}
 }
 
 extension Workspace: VoiceDelegate {
