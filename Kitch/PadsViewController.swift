@@ -18,9 +18,6 @@ class PadsViewController: UIViewController {
 	@IBOutlet var padsView: UICollectionView! {
 		didSet {
 			self.padsView.dataSource = self
-//			self.padsView.registerClass(PadPlayCell.self, forCellWithReuseIdentifier: Strings.Interface.PadPlayCellReuseIdentifier)
-//			self.padsView.registerClass(PadRecordCell.self, forCellWithReuseIdentifier	: Strings.Interface.PadRecordCellReuseIdentifier)
-//			self.padsView.registerClass(PadEmptyCell.self, forCellWithReuseIdentifier	: Strings.Interface.PadEmptyCellReuseIdentifier)
 			self.padsView.registerClass(PadCell.self, forCellWithReuseIdentifier	: Strings.Interface.PadCellReuseIdentifier)
 		}
 	}
@@ -150,9 +147,18 @@ extension PadsViewController: PadCellDelegate {
 		guard let indexPath = self.padsView.indexPathForCell(pad) else { return }
 		let coordinates = self.coordinatesForIndex(indexPath.item, wrapAt: Constants.columns)
 
+		switch self.mode {
+		case .Normal:
+			if self.session.pads[coordinates] == nil {
+				self.session.pads[coordinates] = SimplePad(color: Colors.randomColor()!, audioFile: nil)
+				self.workspace.sharedRecorder.record()
+			}
+
+		case .Shift:
+			break
+		}
+
 		if self.mode == .Shift {
-			self.session.pads[coordinates] = SimplePad(color: Colors.randomColor()!, audioFile: nil)
-			self.workspace.sharedRecorder.record()
 		}
 
 		self.updatePadViewAtCoordinates(coordinates)
@@ -162,7 +168,9 @@ extension PadsViewController: PadCellDelegate {
 		guard let indexPath = self.padsView.indexPathForCell(pad) else { return }
 		let coordinates = self.coordinatesForIndex(indexPath.item, wrapAt: Constants.columns)
 
-		if self.mode == .Shift {
+		guard let pad = self.session.pads[coordinates] else { return }
+
+		if pad.audioFile == nil {
 			self.session.pads[coordinates]?.audioFile = self.workspace.sharedRecorder.export()
 			self.workspace.sharedRecorder = Recorders.make()
 		}
