@@ -10,6 +10,17 @@ import UIKit
 
 class PadsViewController: UIViewController {
 
+	private enum Mode {
+		case Normal
+		case Shift
+	}
+	private var mode: Mode = .Normal {
+		didSet {
+			print("Set mode: \(self.mode)")
+			self.padsView.reloadData()
+		}
+	}
+
 	var workspace: Workspace = Workspace()
 	var session: Session = Sessions.make()
 
@@ -24,15 +35,21 @@ class PadsViewController: UIViewController {
 			self.padsView.registerClass(PadPlayCell.self, forCellWithReuseIdentifier: Strings.Interface.PadPlayCellReuseIdentifier)
 			self.padsView.registerClass(PadRecordCell.self, forCellWithReuseIdentifier	: Strings.Interface.PadRecordCellReuseIdentifier)
 			self.padsView.registerClass(PadEmptyCell.self, forCellWithReuseIdentifier	: Strings.Interface.PadEmptyCellReuseIdentifier)
-
 		}
 	}
+
+	@IBOutlet var shiftButton: UIView! {
+		didSet {
+			self.shiftButton.addGestureRecognizer(self.pressShiftGestureRecognizer)
+		}
+	}
+
+	let pressShiftGestureRecognizer: UILongPressGestureRecognizer = UILongPressGestureRecognizer()
 
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 		self.setup()
 	}
-
 
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
@@ -41,6 +58,9 @@ class PadsViewController: UIViewController {
 
 	private func setup() {
 		self.session.pads[Coordinates(x: 1, y: 1)] = SimplePad(color: UIColor.redColor())
+
+		self.pressShiftGestureRecognizer.minimumPressDuration = 0
+		self.pressShiftGestureRecognizer.addTarget(self, action: #selector(self.pressShift(_:)))
 	}
 
 	override func viewDidLoad() {
@@ -51,6 +71,25 @@ class PadsViewController: UIViewController {
 		flowLayout.minimumInteritemSpacing = 0
 	}
 
+	func tapOnPadAtCoordinates(coordinates: Coordinates) {
+		print("Tapped", coordinates)
+	}
+
+	@objc private func pressShift(recognizer: UILongPressGestureRecognizer) {
+		switch recognizer.state {
+		case .Began:
+			self.mode = .Shift
+
+		case .Ended:
+			self.mode = .Normal
+
+		default: return
+		}
+	}
+
+	private func coordinatesForIndex(index: Int, wrapAt: Int) -> Coordinates {
+		return Coordinates(x: index % wrapAt, y: index / wrapAt)
+	}
 }
 
 
@@ -66,19 +105,47 @@ extension PadsViewController: UICollectionViewDataSource {
 	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 		guard let pad = self.session.pads[self.coordinatesForIndex(indexPath.item, wrapAt: Constants.columns)] else {
 			let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Strings.Interface.PadEmptyCellReuseIdentifier, forIndexPath: indexPath)
-			cell.backgroundColor = UIColor.darkGrayColor()
-			return cell
+			guard let emptyCell = cell as? PadEmptyCell else { return cell }
+
+			emptyCell.delegate = self
+			emptyCell.backgroundColor = UIColor.darkGrayColor()
+			return emptyCell
 		}
 
-		let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Strings.Interface.PadPlayCellReuseIdentifier, forIndexPath: indexPath)
-		guard let playCell = cell as? PadPlayCell else { return cell }
+		switch self.mode {
+		case .Normal:
+			let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Strings.Interface.PadPlayCellReuseIdentifier, forIndexPath: indexPath)
+			guard let playCell = cell as? PadPlayCell else { return cell }
 
-		playCell.backgroundColor = pad.color
+			playCell.backgroundColor = pad.color
+			playCell.delegate = self
 
-		return playCell
+			return playCell
+
+		case .Shift:
+			let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Strings.Interface.PadRecordCellReuseIdentifier, forIndexPath: indexPath)
+			guard let recordCell = cell as? PadRecordCell else { return cell }
+
+			recordCell.backgroundColor = pad.color
+			recordCell.layer.cornerRadius = 10
+			recordCell.delegate = self
+
+			return recordCell
+		}
+	}
+}
+
+extension PadsViewController: PadCellDelegate {
+	func pad(pad: PadCell, wasTappedWithTouch touch: UITouch) {
+		guard let indexPath = self.padsView.indexPathForCell(pad) else { return }
+		self.tapOnPadAtCoordinates(self.coordinatesForIndex(indexPath.item, wrapAt: Constants.columns))
 	}
 
-	private func coordinatesForIndex(index: Int, wrapAt: Int) -> Coordinates {
-		return Coordinates(x: index % wrapAt, y: index / wrapAt)
+	func pad(pad: PadCell, beganPressWithTouch touch: UITouch) {
+//		print("Began touch")
+	}
+
+	func pad(pad: PadCell, endedPressWithTouch touch: UITouch) {
+//		print("Ended touch")
 	}
 }

@@ -19,6 +19,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hX2-mb-yvj">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="6lI-8Y-ivg">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -37,17 +38,28 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IiV-TQ-jKk">
+                                <rect key="frame" x="0.0" y="550" width="50" height="50"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="5y3-eV-TA7"/>
+                                    <constraint firstAttribute="width" constant="50" id="SwJ-zL-G9K"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="FyN-R7-xJ8" firstAttribute="top" secondItem="hX2-mb-yvj" secondAttribute="bottom" id="4dM-2c-4w4"/>
+                            <constraint firstItem="IiV-TQ-jKk" firstAttribute="leading" secondItem="VW9-XO-dSW" secondAttribute="leading" id="6LU-Yc-lhB"/>
                             <constraint firstItem="hX2-mb-yvj" firstAttribute="leading" secondItem="VW9-XO-dSW" secondAttribute="leading" id="KMD-sy-WWw"/>
                             <constraint firstItem="hX2-mb-yvj" firstAttribute="top" secondItem="VW9-XO-dSW" secondAttribute="top" id="N9Y-gD-Hqy"/>
                             <constraint firstAttribute="trailing" secondItem="hX2-mb-yvj" secondAttribute="trailing" id="ZG3-ba-RwC"/>
+                            <constraint firstItem="FyN-R7-xJ8" firstAttribute="top" secondItem="IiV-TQ-jKk" secondAttribute="bottom" id="sdI-fb-afT"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="padsView" destination="hX2-mb-yvj" id="5wi-ik-VIp"/>
+                        <outlet property="shiftButton" destination="IiV-TQ-jKk" id="3vI-SD-Qfd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dhh-mO-rFe" userLabel="First Responder" sceneMemberID="firstResponder"/>
