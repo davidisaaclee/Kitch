@@ -40,12 +40,16 @@ class PadCell: UICollectionViewCell {
 			self.currentTouch = nil
 		}
 	}
+
+	override func prepareForReuse() {
+		self.layer.cornerRadius = 0
+	}
 }
-
-final class PadPlayCell: PadCell {
-
-}
-
-final class PadEmptyCell: PadCell {}
-
-final class PadRecordCell: PadCell {}
+//
+//final class PadPlayCell: PadCell {
+//
+//}
+//
+//final class PadEmptyCell: PadCell {}
+//
+//final class PadRecordCell: PadCell {}

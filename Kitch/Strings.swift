@@ -10,8 +10,9 @@ import Foundation
 
 struct Strings {
 	struct Interface {
-		static let PadPlayCellReuseIdentifier = "PlayCell"
-		static let PadRecordCellReuseIdentifier = "RecordCell"
-		static let PadEmptyCellReuseIdentifier = "EmptyCell"
+//		static let PadPlayCellReuseIdentifier = "PlayCell"
+//		static let PadRecordCellReuseIdentifier = "RecordCell"
+//		static let PadEmptyCellReuseIdentifier = "EmptyCell"
+		static let PadCellReuseIdentifier = "PadCell"
 	}
 }

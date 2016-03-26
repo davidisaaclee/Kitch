@@ -10,31 +10,18 @@ import UIKit
 
 class PadsViewController: UIViewController {
 
-	private enum Mode {
-		case Normal
-		case Shift
-	}
-	private var mode: Mode = .Normal {
-		didSet {
-			print("Set mode: \(self.mode)")
-			self.padsView.reloadData()
-		}
-	}
-
 	var workspace: Workspace = Workspace()
 	var session: Session = Sessions.make()
 
-	private struct Constants {
-		static let rows = 5
-		static let columns = 3
-	}
+	let pressShiftGestureRecognizer: UILongPressGestureRecognizer = UILongPressGestureRecognizer()
 
 	@IBOutlet var padsView: UICollectionView! {
 		didSet {
 			self.padsView.dataSource = self
-			self.padsView.registerClass(PadPlayCell.self, forCellWithReuseIdentifier: Strings.Interface.PadPlayCellReuseIdentifier)
-			self.padsView.registerClass(PadRecordCell.self, forCellWithReuseIdentifier	: Strings.Interface.PadRecordCellReuseIdentifier)
-			self.padsView.registerClass(PadEmptyCell.self, forCellWithReuseIdentifier	: Strings.Interface.PadEmptyCellReuseIdentifier)
+//			self.padsView.registerClass(PadPlayCell.self, forCellWithReuseIdentifier: Strings.Interface.PadPlayCellReuseIdentifier)
+//			self.padsView.registerClass(PadRecordCell.self, forCellWithReuseIdentifier	: Strings.Interface.PadRecordCellReuseIdentifier)
+//			self.padsView.registerClass(PadEmptyCell.self, forCellWithReuseIdentifier	: Strings.Interface.PadEmptyCellReuseIdentifier)
+			self.padsView.registerClass(PadCell.self, forCellWithReuseIdentifier	: Strings.Interface.PadCellReuseIdentifier)
 		}
 	}
 
@@ -44,7 +31,22 @@ class PadsViewController: UIViewController {
 		}
 	}
 
-	let pressShiftGestureRecognizer: UILongPressGestureRecognizer = UILongPressGestureRecognizer()
+	private enum Mode {
+		case Normal
+		case Shift
+	}
+
+	private var mode: Mode = .Normal {
+		didSet {
+			print("Set mode: \(self.mode)")
+			self.padsView.reloadData()
+		}
+	}
+
+	private struct Constants {
+		static let rows = 5
+		static let columns = 3
+	}
 
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -78,19 +80,10 @@ class PadsViewController: UIViewController {
 	@objc private func pressShift(recognizer: UILongPressGestureRecognizer) {
 		switch recognizer.state {
 		case .Began:
-//			self.mode = .Shift
-			break
+			self.mode = .Shift
 
 		case .Ended:
-//			self.mode = .Normal
-
-			switch self.mode {
-			case .Normal:
-				self.mode = .Shift
-
-			case .Shift:
-				self.mode = .Normal
-			}
+			self.mode = .Normal
 
 		default: return
 		}
@@ -112,35 +105,36 @@ extension PadsViewController: UICollectionViewDataSource {
 	}
 
 	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Strings.Interface.PadCellReuseIdentifier, forIndexPath: indexPath)
+		guard let padCell = cell as? PadCell else { return cell }
+
 		guard let pad = self.session.pads[self.coordinatesForIndex(indexPath.item, wrapAt: Constants.columns)] else {
-			let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Strings.Interface.PadEmptyCellReuseIdentifier, forIndexPath: indexPath)
-			guard let emptyCell = cell as? PadEmptyCell else { return cell }
-
-			emptyCell.delegate = self
-			emptyCell.backgroundColor = UIColor.darkGrayColor()
-			return emptyCell
+			padCell.delegate = self
+			padCell.backgroundColor = UIColor.darkGrayColor()
+			return padCell
 		}
 
-		switch self.mode {
-		case .Normal:
-			let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Strings.Interface.PadPlayCellReuseIdentifier, forIndexPath: indexPath)
-			guard let playCell = cell as? PadPlayCell else { return cell }
+		self.updatePadCell(padCell, forPad: pad)
+		return padCell
+	}
 
-			playCell.backgroundColor = pad.color
-			playCell.delegate = self
+	func updatePadViewAtCoordinates(coordinates: Coordinates) {
+		let indexPath = NSIndexPath(forItem: self.indexForCoordinates(coordinates), inSection: 0)
+		guard let cell = self.padsView.cellForItemAtIndexPath(indexPath) else { return }
+		guard let padCell = cell as? PadCell else { return }
+		guard let pad = self.session.pads[coordinates] else { return }
 
-			return playCell
+		self.updatePadCell(padCell, forPad: pad)
+	}
 
-		case .Shift:
-			let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Strings.Interface.PadRecordCellReuseIdentifier, forIndexPath: indexPath)
-			guard let recordCell = cell as? PadRecordCell else { return cell }
+	func indexForCoordinates(coordinates: Coordinates, wrappedAt: Int = Constants.columns) -> Int {
+		return coordinates.x + coordinates.y * wrappedAt
+	}
 
-			recordCell.backgroundColor = pad.color
-			recordCell.layer.cornerRadius = 10
-			recordCell.delegate = self
-
-			return recordCell
-		}
+	func updatePadCell(padCell: PadCell, forPad pad: Pad) {
+		padCell.backgroundColor = pad.color
+		padCell.delegate = self
+		padCell.layer.cornerRadius = self.mode == .Shift ? 10 : 0
 	}
 }
 
@@ -148,6 +142,7 @@ extension PadsViewController: PadCellDelegate {
 	func pad(pad: PadCell, wasTappedWithTouch touch: UITouch) {
 		guard let indexPath = self.padsView.indexPathForCell(pad) else { return }
 		let coordinates = self.coordinatesForIndex(indexPath.item, wrapAt: Constants.columns)
+
 		self.tapOnPadAtCoordinates(coordinates)
 	}
 
@@ -160,7 +155,7 @@ extension PadsViewController: PadCellDelegate {
 			self.workspace.sharedRecorder.record()
 		}
 
-		self.padsView.reloadItemsAtIndexPaths([indexPath])
+		self.updatePadViewAtCoordinates(coordinates)
 	}
 
 	func pad(pad: PadCell, endedPressWithTouch touch: UITouch) {
