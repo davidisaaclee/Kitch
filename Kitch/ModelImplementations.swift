@@ -10,6 +10,7 @@ import Foundation
 import AVFoundation
 
 struct LocalAudioFile: AudioFile {
+	var name: String
 	let url: NSURL
 
 	var data: NSData? {
@@ -22,23 +23,42 @@ struct LocalAudioFile: AudioFile {
 	}
 }
 
-struct SimpleSampler: Sampler {
+final class SimpleSampler: Sampler {
+	weak var voiceDelegate: VoiceDelegate?
 	var busy: Bool = false
-
 	var audioPlayer: AVAudioPlayer?
+
+	/// Helper object to bridge to Objective-C protocol `AVAudioPlayerDelegate`.
+	private var audioPlayerDelegate: AudioPlayerDelegate!
 
 	init(file: AudioFile) {
 		self.audioPlayer = try! AVAudioPlayer(data: file.data!)
+		self.audioPlayerDelegate = AudioPlayerDelegate(sampler: self)
+
+		self.audioPlayer?.delegate = self.audioPlayerDelegate
 	}
 
 	func play() {
 		guard let audioPlayer = self.audioPlayer else { return }
 		audioPlayer.play()
+		self.voiceDelegate?.voiceDidBecomeBusy(self)
 	}
 
 	func stop() {
 		guard let audioPlayer = self.audioPlayer else { return }
 		audioPlayer.stop()
+	}
+
+	private class AudioPlayerDelegate: NSObject, AVAudioPlayerDelegate {
+		unowned let sampler: SimpleSampler
+
+		init(sampler: SimpleSampler) {
+			self.sampler = sampler
+		}
+
+		@objc func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+			self.sampler.voiceDelegate?.voiceDidBecomeFree(self.sampler)
+		}
 	}
 }
 
@@ -52,11 +72,18 @@ struct PolyphonicSamplerController {
 	}
 }
 
-struct Recorder: AudioRecordable {
+struct Recorder: AudioRecordingMaker {
 	var avRecorder: AVAudioRecorder!
 
 	init() {
-		self.reset()
+		let outputURL = NSURL.documentsURLByAppendingPathComponent("\(NSUUID().UUIDString).caf")
+		self.avRecorder = try! AVAudioRecorder(URL: outputURL, settings: [
+			AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
+			AVSampleRateKey: 44100,
+			AVNumberOfChannelsKey: 1,
+			AVFormatIDKey: NSNumber(unsignedInt: kAudioFormatLinearPCM)
+		])
+		self.avRecorder.prepareToRecord()
 	}
 
 	func record() {
@@ -70,16 +97,5 @@ struct Recorder: AudioRecordable {
 	func export() -> AudioFile {
 		self.avRecorder.stop()
 		return AudioFiles.make(fromURL: self.avRecorder.url)
-	}
-
-	mutating func reset() {
-		let outputURL = NSURL.documentsURLByAppendingPathComponent("\(NSUUID().UUIDString).caf")
-		self.avRecorder = try! AVAudioRecorder(URL: outputURL, settings: [
-			AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
-			AVSampleRateKey: 44100,
-			AVNumberOfChannelsKey: 1,
-			AVFormatIDKey: NSNumber(unsignedInt: kAudioFormatLinearPCM)
-		])
-		self.avRecorder.prepareToRecord()
 	}
 }

@@ -10,37 +10,26 @@ import UIKit
 
 class ViewController: UIViewController {
 
-	var recorder: AudioRecordable!
-	var samplerController: PolyphonicSamplerController!
+//	var recorder: AudioRecordingMaker = Recorders.make()
+//	var samplerController: PolyphonicSamplerController = PolyphonicSamplerController()
 
-	var mostRecentFile: AudioFile?
-
-	override func viewDidLoad() {
-		super.viewDidLoad()
-
-		let paths = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-		let documentsURL = paths.first!
-
-		self.recorder = Recorders.make(outputURL: documentsURL.URLByAppendingPathComponent("\(NSUUID().UUIDString).caf"))
-		self.samplerController = PolyphonicSamplerController()
-	}
+	var workspace: Workspace = Workspace()
+	var session: Session = Sessions.make()
 
 	@IBAction func startRecording() {
-		self.recorder.record()
+		self.workspace.sharedRecorder.record()
 	}
 
 	@IBAction func stopRecording() {
-		self.recorder.stop()
-		self.mostRecentFile = self.recorder.export()
-		self.recorder.reset()
+		self.workspace.sharedRecorder.stop()
+		self.session.bin.files.append(self.workspace.sharedRecorder.export())
+		self.workspace.sharedRecorder = Recorders.make()
 	}
 
-	private var voice: Sampler!
-
 	@IBAction func startPlayback() {
-		guard let file = self.mostRecentFile else { return }
+		guard let file = self.session.bin.files.last else { return }
 
-		let voice = self.samplerController.makeSampler(fromFile: file)
+		let voice = self.workspace.makeSampler(fromAudioFile: file)
 		voice.play()
 	}
 
