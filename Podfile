@@ -5,7 +5,7 @@ use_frameworks!
 
 target 'Kitch' do
 
-pod 'Realm'
+pod 'RealmSwift'
 
 end
 

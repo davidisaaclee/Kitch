@@ -35,6 +35,7 @@
 		63DDB2D31CA7121000C179E9 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DDB2D21CA7121000C179E9 /* Colors.swift */; };
 		63DDB2D51CA7127200C179E9 /* UIColor+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DDB2D41CA7127200C179E9 /* UIColor+hex.swift */; };
 		63DDB2D91CA715A500C179E9 /* Array+pickRandomElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DDB2D81CA715A500C179E9 /* Array+pickRandomElement.swift */; };
+		63DDB2DD1CA741D300C179E9 /* SongSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DDB2DC1CA741D300C179E9 /* SongSettingsViewController.swift */; };
 		E55FC2B1794819DCAC98C8B0 /* Pods_Kitch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B966343F35087F5FFD6DD74A /* Pods_Kitch.framework */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +72,7 @@
 		63DDB2D21CA7121000C179E9 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		63DDB2D41CA7127200C179E9 /* UIColor+hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+hex.swift"; sourceTree = "<group>"; };
 		63DDB2D81CA715A500C179E9 /* Array+pickRandomElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+pickRandomElement.swift"; sourceTree = "<group>"; };
+		63DDB2DC1CA741D300C179E9 /* SongSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongSettingsViewController.swift; sourceTree = "<group>"; };
 		B966343F35087F5FFD6DD74A /* Pods_Kitch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kitch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -138,6 +140,7 @@
 				63942CD31CA6F84F0067A9F7 /* SwitchingView.swift */,
 				63942CD51CA6FD790067A9F7 /* PadCells.swift */,
 				63942CD91CA6FE210067A9F7 /* PadsViewController.swift */,
+				63DDB2DC1CA741D300C179E9 /* SongSettingsViewController.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				639933E11CA6D901008CE8CA /* Recorder.swift in Sources */,
 				63942CD41CA6F84F0067A9F7 /* SwitchingView.swift in Sources */,
 				639933F01CA6D9D4008CE8CA /* AudioRecordingMaker.swift in Sources */,
+				63DDB2DD1CA741D300C179E9 /* SongSettingsViewController.swift in Sources */,
 				631AB1E61C9F13B500755998 /* NSURL+documentsURLByAppendingPathComponent.swift in Sources */,
 				639933E51CA6D982008CE8CA /* LocalAudioFile.swift in Sources */,
 				639933FB1CA6DA31008CE8CA /* AudioFile.swift in Sources */,
