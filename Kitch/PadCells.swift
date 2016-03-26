@@ -18,6 +18,33 @@ protocol PadCellDelegate: class {
 class PadCell: UICollectionViewCell {
 	weak var delegate: PadCellDelegate?
 
+	enum Configuration {
+		case Empty
+		case CanPlay
+		case Editing
+	}
+
+	var configuration: Configuration = .Empty {
+		didSet {
+			self.layer.borderColor = nil
+			self.layer.borderWidth = 0
+			self.layer.cornerRadius = 0
+
+			switch self.configuration {
+			case .Empty:
+				self.backgroundColor = Colors.byName("blackLight")!
+				self.layer.borderColor = Colors.byName("blackDark")!.CGColor
+				self.layer.borderWidth = 1
+
+			case .CanPlay:
+				break
+
+			case .Editing:
+				self.layer.cornerRadius = 10
+			}
+		}
+	}
+
 	private let maximumTapTime: NSTimeInterval = 0.2
 	private var currentTouch: (touch: UITouch, time: NSDate)?
 
@@ -38,9 +65,5 @@ class PadCell: UICollectionViewCell {
 			self.delegate?.pad(self, endedPressWithTouch: currentTouch.touch)
 			self.currentTouch = nil
 		}
-	}
-
-	override func prepareForReuse() {
-		self.layer.cornerRadius = 0
 	}
 }

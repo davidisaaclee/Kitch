@@ -63,9 +63,11 @@ class PadsViewController: UIViewController {
 	override func viewDidLoad() {
 		guard let flowLayout = self.padsView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
 
-		flowLayout.itemSize = CGSize(width: self.view.bounds.width / 3, height: self.view.bounds.height / 5)
+		flowLayout.itemSize = CGSize(width: Int(self.view.bounds.width / 3 + 0.5), height: Int(self.view.bounds.height / 5 + 0.5))
 		flowLayout.minimumLineSpacing = 0
 		flowLayout.minimumInteritemSpacing = 0
+
+		self.view.backgroundColor = Colors.byName("blackDark")!
 	}
 
 	func tapOnPadAtCoordinates(coordinates: Coordinates) {
@@ -105,13 +107,7 @@ extension PadsViewController: UICollectionViewDataSource {
 		let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Strings.Interface.PadCellReuseIdentifier, forIndexPath: indexPath)
 		guard let padCell = cell as? PadCell else { return cell }
 
-		guard let pad = self.session.pads[self.coordinatesForIndex(indexPath.item, wrapAt: Constants.columns)] else {
-			padCell.delegate = self
-			padCell.backgroundColor = UIColor.darkGrayColor()
-			return padCell
-		}
-
-		self.updatePadCell(padCell, forPad: pad)
+		self.updatePadCell(padCell, forPad: self.session.pads[self.coordinatesForIndex(indexPath.item, wrapAt: Constants.columns)])
 		return padCell
 	}
 
@@ -119,19 +115,30 @@ extension PadsViewController: UICollectionViewDataSource {
 		let indexPath = NSIndexPath(forItem: self.indexForCoordinates(coordinates), inSection: 0)
 		guard let cell = self.padsView.cellForItemAtIndexPath(indexPath) else { return }
 		guard let padCell = cell as? PadCell else { return }
-		guard let pad = self.session.pads[coordinates] else { return }
 
-		self.updatePadCell(padCell, forPad: pad)
+		self.updatePadCell(padCell, forPad: self.session.pads[coordinates])
 	}
 
 	func indexForCoordinates(coordinates: Coordinates, wrappedAt: Int = Constants.columns) -> Int {
 		return coordinates.x + coordinates.y * wrappedAt
 	}
 
-	func updatePadCell(padCell: PadCell, forPad pad: Pad) {
-		padCell.backgroundColor = pad.color
+	func updatePadCell(padCell: PadCell, forPad pad: Pad?) {
+		if let pad = pad {
+			switch self.mode {
+			case .Normal:
+				padCell.configuration = .CanPlay
+				padCell.backgroundColor = pad.color
+
+			case .Shift:
+				padCell.configuration = .Editing
+				padCell.backgroundColor = pad.color
+			}
+		} else {
+			padCell.configuration = .Empty
+		}
+
 		padCell.delegate = self
-		padCell.layer.cornerRadius = self.mode == .Shift ? 10 : 0
 	}
 }
 
@@ -156,9 +163,6 @@ extension PadsViewController: PadCellDelegate {
 
 		case .Shift:
 			break
-		}
-
-		if self.mode == .Shift {
 		}
 
 		self.updatePadViewAtCoordinates(coordinates)
