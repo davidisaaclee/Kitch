@@ -10,7 +10,7 @@ import Foundation
 
 /// A segment of an `AudioFile`.
 protocol AudioClip: Named {
-	var file: AudioFile { get }
+	var fileID: AudioFileID { get }
 
 	var startPoint: NSTimeInterval { get }
 	var endPoint: NSTimeInterval { get }
