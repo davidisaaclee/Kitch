@@ -110,7 +110,7 @@ class PadsViewController: UIViewController {
 	}
 
 	private func coordinatesForIndex(index: Int, wrapAt: Int) -> Coordinates {
-		return Coordinates(x: index % wrapAt, y: index / wrapAt)
+		return Coordinates(column: index % wrapAt, row: index / wrapAt)
 	}
 }
 
@@ -141,7 +141,7 @@ extension PadsViewController: UICollectionViewDataSource {
 	}
 
 	func indexForCoordinates(coordinates: Coordinates, wrappedAt: Int = Constants.columns) -> Int {
-		return coordinates.x + coordinates.y * wrappedAt
+		return coordinates.column + coordinates.row * wrappedAt
 	}
 
 	func updatePadCell(padCell: PadCell, forPad pad: Pad?) {

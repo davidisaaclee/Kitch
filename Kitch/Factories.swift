@@ -10,7 +10,7 @@ import Foundation
 
 struct AudioFiles {
 	static func make(fromURL url: NSURL) -> AudioFile {
-		return LocalAudioFile(name: url.lastPathComponent!, url: url)
+		return LocalAudioFile(id: NSUUID().UUIDString, name: url.lastPathComponent!, url: url)
 	}
 }
 

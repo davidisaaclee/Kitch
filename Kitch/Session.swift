@@ -20,8 +20,8 @@ struct Session: Named {
 
 
 struct Coordinates {
-	let x: Int
-	let y: Int
+	let column: Int
+	let row: Int
 }
 
 extension Coordinates: Hashable {
@@ -31,7 +31,7 @@ extension Coordinates: Hashable {
 }
 
 func == (left: Coordinates, right: Coordinates) -> Bool {
-	return (left.x == right.x) && (left.y == right.y)
+	return (left.column == right.column) && (left.row == right.row)
 }
 
 protocol Pad {

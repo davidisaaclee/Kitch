@@ -19,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		return true
 	}
 
-
 	func setupAudioSession() {
 		let session = AVAudioSession.sharedInstance()
 		session.requestRecordPermission { permitted in
